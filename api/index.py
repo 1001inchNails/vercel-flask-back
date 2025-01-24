@@ -1,4 +1,3 @@
-import os
 from flask import Flask,jsonify,request
 from flask_pymongo import PyMongo
 from pymongo import MongoClient
@@ -66,5 +65,4 @@ def get_user_by_name():
     else:
         return "Error, madafaka", 404
 
-port = int(os.environ.get('PORT', 5000))
-app.run(host='0.0.0.0', port=port)
+app.run()
