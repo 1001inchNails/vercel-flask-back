@@ -1,16 +1,13 @@
+import os
 from flask import Flask,jsonify,request
 from flask_pymongo import PyMongo
 from pymongo import MongoClient
 
 app = Flask(__name__)
-#app.config["MONGO_URI"] = "mongodb+srv://dccAtlMongoC_S:1001%25%25wWqq4904@clusterbuster.bl5p1.mongodb.net/exendpovercel?retryWrites=true&w=majority&appName=ClusterBuster"
-#mongo = PyMongo(app)
 
 client = MongoClient('mongodb+srv://dccAtlMongoC_S:1001%25%25wWqq4904@clusterbuster.bl5p1.mongodb.net/?retryWrites=true&w=majority&appName=ClusterBuster')
 db = client['exendpovercel']
 collection = db['usuarios']
-
-
 
 
 def listadoUsers():
@@ -69,4 +66,5 @@ def get_user_by_name():
     else:
         return "Error, madafaka", 404
 
-app.run()
+port = int(os.environ.get('PORT', 5000))
+app.run(host='0.0.0.0', port=port)
