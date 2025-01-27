@@ -1,8 +1,10 @@
 from flask import Flask,jsonify,request
 from flask_pymongo import PyMongo
 from pymongo import MongoClient
+from flask_cors import CORS 
 
 app = Flask(__name__)
+CORS(app)
 
 client = MongoClient('mongodb+srv://dccAtlMongoC_S:1001%25%25wWqq4904@clusterbuster.bl5p1.mongodb.net/?retryWrites=true&w=majority&appName=ClusterBuster')
 db = client['exendpovercel']
@@ -38,10 +40,15 @@ def users():
     print(type(usuarios))
     return usuarios
 
-
+#ejemplo (body): {"nombre":"Zeus2","apellidos":"Perez Colina","email":"zeusPC@mainModule.com","telefono":"610445846"}
 @app.route('/api/users',methods=["POST"])
 def new_users():
+    listaUsuarios=listadoUsers()
+    id=len(listaUsuarios)
+    id+=1
+    id=str(id)
     nuevo_user=request.get_json()
+    nuevo_user.update({"id":id})
     print(nuevo_user)
     print(type(nuevo_user))
     insertarNuevoDocumento(nuevo_user)
@@ -59,10 +66,9 @@ def get_user_by_name():
         document['_id']=str(document['_id'])
         resultado.append(document)
     if resultado:
-        return resultado
+        return jsonify({"mensaje": "Usuario introducido correctamente"})
     elif not resultado:
         return "No se han encontrado coincidencias"
-    else:
-        return "Error, madafaka", 404
+
 
 app.run()
