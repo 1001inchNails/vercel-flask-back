@@ -52,7 +52,7 @@ def new_users():
     print(nuevo_user)
     print(type(nuevo_user))
     insertarNuevoDocumento(nuevo_user)
-    return 'ay caramba'
+    return jsonify({"mensaje": "Usuario añadido"})
 
 # ruta/api/usersByName?nombre=loquesea
 @app.route('/api/usersByName',methods=["GET"])
@@ -65,10 +65,12 @@ def get_user_by_name():
     for document in cursor:
         document['_id']=str(document['_id'])
         resultado.append(document)
-    if resultado:
-        return jsonify({"mensaje": "Usuario introducido correctamente"})
-    elif not resultado:
-        return "No se han encontrado coincidencias"
-""" 
 
-app.run() """
+    if resultado:
+        return resultado
+    
+    if not resultado:
+        return jsonify({"mensaje": "No se han encontrado coincidencias"})
+
+
+'''app.run()'''
